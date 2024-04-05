@@ -20,7 +20,7 @@ if (browserLang === "es") {
     moods = {
         "🙂": "feliz",
         "😇": "bendecid@",
-        "🍀": "dichos@",
+        "🍀": "afortunad@",
         "🥰": "amad@",
         "😢": "triste",
         "🙏": "agradecid@",
