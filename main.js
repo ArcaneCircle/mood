@@ -1,9 +1,22 @@
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}
+
 let browserLang = (window.navigator && window.navigator.language) || "en-US";
 browserLang = browserLang.slice(0, 2).toLowerCase();
 
-let header, moods;
+let header, announcement, moods;
 if (browserLang === "es") {
-    header = "¿Cómo te sientes hoy?"
+    header = "¿Cómo te sientes hoy?";
+    announcement = "{0} {1} se siente {2} hoy";
     moods = {
         "🙂": "feliz",
         "😇": "bendecid@",
@@ -24,7 +37,8 @@ if (browserLang === "es") {
         "😈": "malvad@",
     };
 } else {
-    header = "How are you feeling today?"
+    header = "How are you feeling today?";
+    announcement = "{0} {1} is feeling {2} today";
     moods = {
         "🙂": "happy",
         "😇": "blessed",
@@ -90,7 +104,7 @@ function share(btn) {
         btn.classList.add("selected");
         localStorage.mood = mood;
         localStorage.day = getDate();
-        let info = mood + " " + window.webxdc.selfName + " is feeling " + moods[mood] + " today";
+        let info = announcement.format(mood, window.webxdc.selfName, moods[mood]);
         window.webxdc.sendUpdate({payload: "", info}, info);
     }
 }
